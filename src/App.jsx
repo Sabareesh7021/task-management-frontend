@@ -1,46 +1,73 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import PrivateRoute from './components/auth/PrivateRoute';
-import AdminRoute from './components/auth/AdminRoute';
-import SuperAdminRoute from './components/auth/SuperAdminRoute';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Tasks from './pages/Tasks';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminTasks from './pages/admin/AdminTasks';
-import AdminUsers from './pages/admin/AdminUsers';
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Login from "./View/Login";
+import { superAdminRoutes, adminRoutes, userRoutes } from "./Routes/routes";
+import MainLayout from "./Layouts/MainLayout";
+
+const routeMap = {
+  super_admin: {
+    routes: superAdminRoutes,
+    defaultRoute: "/admin/users",
+  },
+  admin: {
+    routes: adminRoutes,
+    defaultRoute: "/admin/users",
+  },
+  user: {
+    routes: userRoutes,
+    defaultRoute: "/task",
+  },
+};
 
 function App() {
+  const userRole = localStorage.getItem("role");
+  console.log("User Role:", userRole);
+
+  if (!userRole || !routeMap[userRole]) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Navigate replace to="/login" />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
+
+  const isRouteAllowed = (path) => {
+    if (path === "/login") return true;
+
+    const allowedRoutes = routeMap[userRole].routes.map(
+      (route) => route.props.path
+    );
+    return allowedRoutes.some(
+      (route) => path === route || path.startsWith(route + "/")
+    );
+  };
+
   return (
-    <Router>
-      <AuthProvider>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            
-            {/* User routes */}
-            <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/tasks" element={<Tasks />} />
-            </Route>
-            
-            {/* Admin routes */}
-            <Route element={<AdminRoute />}>
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/tasks" element={<AdminTasks />} />
-            </Route>
-            
-            {/* SuperAdmin routes */}
-            <Route element={<SuperAdminRoute />}>
-              <Route path="/admin/users" element={<AdminUsers />} />
-            </Route>
-          </Routes>
-        </Layout>
-      </AuthProvider>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        {/* Redirect /login if already logged in */}
+        <Route path="/login" element={<Navigate replace to={routeMap[userRole].defaultRoute} />} />
+
+        {/* Wrap all role routes with MainLayout */}
+        <Route path="/" element={<MainLayout />}>
+          {routeMap[userRole].routes}
+        </Route>
+
+        {/* Catch-all */}
+        <Route
+          path="*"
+          element={
+            isRouteAllowed(window.location.pathname) ? (
+              <Navigate replace to={routeMap[userRole].defaultRoute} />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
