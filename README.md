@@ -1,12 +1,58 @@
-# React + Vite
+# Task Management System - Frontend (React + Vite + Tailwind CSS)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+A responsive frontend application for the Task Management System built with:
+- React.js
+- Vite (build tool)
+- Tailwind CSS (styling)
+- Axios (API communication)
 
-Currently, two official plugins are available:
+## Prerequisites
+- Node.js (v16 or higher)
+- npm (v8 or higher)
+- Backend API server (see backend setup)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup Instructions
 
-## Expanding the ESLint configuration
+### 1. Installation
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Configuration
+Create/update the `src/config.js` file with your backend API URL:
+```javascript
+export const API_CONFIG = {
+  BASE_URL: 'http://your-backend-url:8001', // Replace with your backend URL
+  AUTH_PREFIX: '/auth',
+  TASK_PREFIX: '/api'
+};
+```
+
+### 3. Development
+```bash
+npm run dev
+```
+Runs the app in development mode on `http://localhost:5173`
+
+### 4. Production Build
+```bash
+npm run build
+```
+Creates optimized production build in the `dist` folder
+
+## Key Features
+- JWT authentication flow (login/logout)
+- User management (for admins)
+- Task creation/assignment
+- Task status management
+
+
+## Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Create production build
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
+
+## Backend Integration
+The frontend is designed to work with the Task Management System backend API (documented separately). Ensure your backend is running and properly configured before starting the frontend.
