@@ -22,15 +22,13 @@ npm install
 ### 2. Configuration
 Create/update the `src/config.js` file with your backend API URL:
 ```javascript
-export const API_CONFIG = {
-  BASE_URL: 'http://your-backend-url:8001', // Replace with your backend URL
-  AUTH_PREFIX: '/auth',
-  TASK_PREFIX: '/api'
-};
+export const  BASE_URL ='http://your-backend-url:8001', // Replace with your backend
+
 ```
 
 ### 3. Development
 ```bash
+npm start 
 npm run dev
 ```
 Runs the app in development mode on `http://localhost:5173`
@@ -39,7 +37,7 @@ Runs the app in development mode on `http://localhost:5173`
 ```bash
 npm run build
 ```
-Creates optimized production build in the `dist` folder
+Creates optimized production build in the `build` folder
 
 ## Key Features
 - JWT authentication flow (login/logout)
