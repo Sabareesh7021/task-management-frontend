@@ -2,10 +2,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { userService } from "../Services/userService";
 
 export const UserApiHook = {
-  useGetUsers: (perPage, page, search) => {
+  useGetUsers: (perPage, page, search, role = "", show=true) => {
       return useQuery({
-        queryKey: ['get-users', perPage, page, search],
-        queryFn: () => userService.getUsers({perPage, page, search})
+        queryKey: ['get-users', perPage, page, search, role],
+        queryFn: () => userService.getUsers({perPage, page, search, role}),
+        enabled: show && !!perPage && !!page, 
       });
     },
   useGetUserById: (id) => {  

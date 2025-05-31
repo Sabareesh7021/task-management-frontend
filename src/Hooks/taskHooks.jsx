@@ -11,7 +11,8 @@ export const  TaskApiHook = {
   useGetTaskById: (id) => {  
     return useQuery({
       queryKey: ['get-user', id],
-      queryFn: () => taskervice.getTask(id)
+      queryFn: () => taskervice.getTask(id),
+      enabled: !!id 
     });
   },
   useCreateTask: () => {

@@ -37,6 +37,7 @@ const TaskForm = ({
     pageSize,
     userPage,
     userSearch,
+    'user',
     { enabled: shouldFetchUsers }
   );
 
