@@ -1,4 +1,4 @@
-import api from "../utils/api.js";
+import api from '../Utils/api'
 
 export const userService = {
   getUsers: (params) => api.get('/auth/get-users/', params),

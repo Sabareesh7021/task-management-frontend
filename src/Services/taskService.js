@@ -1,4 +1,4 @@
-import api from "../utils/api.js";
+import api from '../Utils/api'
 
 export const taskervice = {
   getTasks: (params) => api.get('/api/get-tasks/', params),

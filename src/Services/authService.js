@@ -1,4 +1,4 @@
-import api from "../utils/api.js";
+import api from '../Utils/api'
 
 export const authService = {
   login: (body) => api.post("auth/login/", body)

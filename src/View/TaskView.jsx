@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import TaskList from '../Components/task/TaskList';
 import TaskForm from '../Components/task/TaskCreateForm';
-import Modal from '../components/common/Modal';
+import Modal from '../Components/common/Modal';
 import { TaskApiHook } from '../Hooks/taskHooks';
 import { UserApiHook } from '../Hooks/userHooks';
 

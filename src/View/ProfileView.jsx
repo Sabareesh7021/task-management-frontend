@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserApiHook } from '../Hooks/userHooks';
-import UserForm from '../components/users/UserCreateForm';
+import UserForm from '../Components/users/UserCreateForm';
 
 const ProfileView = () => {
   const queryClient = useQueryClient();

@@ -3,9 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { UserApiHook } from '../Hooks/userHooks';
-import UserList from '../components/users/UserList';
-import UserForm from '../components/users/UserCreateForm';
-import Modal from '../components/common/Modal';
+import UserList from '../Components/users/UserList';
+import UserForm from '../Components/users/UserCreateForm';
+import Modal from '../Components/common/Modal';
 
 const UsersView = () => {
   const { userId } = useParams();
