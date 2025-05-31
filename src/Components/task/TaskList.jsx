@@ -15,10 +15,10 @@ const TaskList = ({
   onEdit,
   onDelete,
   userId,
-  userRole, // Add userRole prop
+  userRole,
+  startTask,
+  isStarting
 }) => {
-  const { mutate: startTask, isLoading: isStarting } = TaskApiHook.useStartTask();
-  const queryClient = useQueryClient();
   if (isLoading) return <div className="text-center py-8">Loading tasks...</div>;
   if (error) return <div className="text-center py-8 text-red-500">Error loading tasks: {error.message}</div>;
 
@@ -41,23 +41,17 @@ const TaskList = ({
         return 'bg-gray-100 text-gray-800';
     }
   };
-  console.log('TaskList rendered with tasks:', tasks);
-  const handleStartTask = (taskId) => {
-    startTask({id:taskId}, {
-      onSuccess: () => {
-        toast.success('Task started successfully!');
-        queryClient.invalidateQueries(['get-tasks']);
-      },
-      onError: (error) => {
-        toast.error(error.response?.data?.message || 'Failed to start task.');
-      },
-    });
-  };
 
   const hasActiveTask = tasks?.some(
     task => task.assigned_to?.id === userId && task.status === 'in_progress'
   );
 
+  const handleStartTask = (taskId) => {
+    if (!hasActiveTask && !isStarting) {
+      startTask(taskId);
+    }
+  };
+  
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="overflow-x-auto">
@@ -182,7 +176,9 @@ TaskList.propTypes = {
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
   userId: PropTypes.string,
-  userRole: PropTypes.string, // Add userRole prop type
+  userRole: PropTypes.string,
+  startTask: PropTypes.func,
+  isStarting: PropTypes.bool
 };
 
 export default TaskList;

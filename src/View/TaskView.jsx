@@ -39,6 +39,7 @@ const TasksView = () => {
     assignedToFilter !== 'all' ? assignedToFilter : undefined,
     searchQuery || undefined
   );
+  const { mutate: startTask, isLoading: isStarting } = TaskApiHook.useStartTask();
 
   // Fetch a single task by ID if not in the list
   const { data: singleTask } = TaskApiHook.useGetTaskById(taskId, {
@@ -185,6 +186,17 @@ const TasksView = () => {
     if (assignedToFilter === 'all') return 'All Users';
     const selectedUser = allUsers.find(user => user.id.toString() === assignedToFilter);
     return selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User';
+  };
+  const handleStartTask = (taskId) => {
+    startTask({ id: taskId }, {
+      onSuccess: () => {
+        toast.success('Task started successfully!');
+        queryClient.invalidateQueries(['get-tasks']);
+      },
+      onError: (error) => {
+        toast.error(error.response?.data?.message || 'Failed to start task.');
+      },
+    });
   };
 
   return (
@@ -361,6 +373,8 @@ const TasksView = () => {
         onDelete={userRole === 'super_admin' ? handleDelete : null}
         userId={userId}
         userRole={userRole}
+        startTask={handleStartTask}
+        isStarting={isStarting}
       />
 
       <Modal
