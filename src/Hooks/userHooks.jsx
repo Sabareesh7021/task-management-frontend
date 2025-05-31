@@ -12,7 +12,8 @@ export const UserApiHook = {
   useGetUserById: (id) => {  
     return useQuery({
       queryKey: ['get-user', id],
-      queryFn: () => userService.getUser(id)
+      queryFn: () => userService.getUser(id),
+      enabled: !!id
     });
   },
   useCreateUser: () => {
